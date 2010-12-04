@@ -1,0 +1,81 @@
+
+    NEURON DEMO FOR SIMULATING FLUCTUATING SYNAPTIC CONDUCTANCES
+
+                          Alain Destexhe
+
+            CNRS, UNIC (Bat-33), Avenue de la Terrasse,
+                 91198 Gif-sur-Yvette, France
+
+                     Destexhe@iaf.cnrs-gif.fr
+                    http://cns.iaf.cnrs-gif.fr
+
+
+This package is running with the NEURON simulation program written by Michael
+Hines and available on internet at:
+  http://www.neuron.yale.edu
+
+The package contains mechanisms (.mod files) and programs (.oc files) needed 
+to simulate synaptic background activity similar to in vivo measurements
+using a model of fluctuating synaptic conductances.  This "point-conductance"
+model recreates in-vivo-like membrane parameters, such as the depolarized
+membrane potential, the low input resistance and high-amplitude membrane
+potential fluctuations.  All details are given in the following paper:
+
+Destexhe A, Rudolph M, Fellous JM and Sejnowski TJ. Fluctuating synaptic 
+conductances recreate in-vivo-like activity in neocortical neurons.
+Neuroscience 107: 13-24, 2001.
+
+(see electronic copy at  http://cns.iaf.cnrs-gif.fr)
+
+
+
+  PROGRAMS
+  ========
+
+demo_gfluct.oc : illustrates the point-conductance model
+
+
+  MECHANISMS
+  ==========
+
+ Gfluct.mod		: fluctuating synaptic conductances
+ INa_traub_shifted.mod  : fast sodium current
+ IKd_traub.mod          : delayed-rectifier potassium current
+ IM.mod 		: slow voltage-dependent potassium current (IM)
+
+
+  HOW TO RUN
+  ==========
+
+To compile the demo, NEURON and INTERVIEWS must be installed and working on
+the machine you are using.  Just type "nrnivmodl" to compile the mechanisms
+given in the mod files.
+
+Then, execute the main demo program by typing:
+
+nrngui demo_gfluct.oc
+
+(for older NEURON versions than 4.3.1
+special demo_gfluct.oc -
+)
+Once the menu and graphics interface has appeared, click on "Init and Run" 
+to start the simulation...
+
+For more information about how to get NEURON and how to install it, please
+refer to the following sites:
+  http://www.neuron.yale.edu
+  http://www.neuro.duke.edu
+
+
+
+For further information, please contact:
+
+Alain Destexhe
+
+CNRS, UNIC (Bat-33), 
+Avenue de la Terrasse,
+91198 Gif-sur-Yvette, 
+France
+
+email: Destexhe@iaf.cnrs-gif.fr
+http://cns.iaf.cnrs-gif.fr

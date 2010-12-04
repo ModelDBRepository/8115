@@ -1,0 +1,214 @@
+/*----------------------------------------------------------------------------
+
+	Neuron demo file to simulate fluctuating conductances
+	-----------------------------------------------------
+
+	- single-compartment with "Gfluct" point-process	
+	- addition of Na/K currents for action potentials
+	- spontaneous firing
+	- Gfluct2 process
+        - fluctuations comparable to layer6 model with correl=0.7 
+
+
+Reference: 
+
+  Destexhe, A., Rudolph, M., Fellous, J-M. and Sejnowski, T.J.  
+  Fluctuating synaptic conductances recreate in-vivo--like activity in
+  neocortical neurons. Neuroscience 107: 13-24 (2001).
+
+  (electronic copy available at http://cns.iaf.cnrs-gif.fr)
+
+
+
+	Written by A. Destexhe, 1999
+
+----------------------------------------------------------------------------*/
+
+
+
+//----------------------------------------------------------------------------
+//  load and define general graphical procedures
+//----------------------------------------------------------------------------
+
+load_file("nrngui.hoc")
+
+objectvar g[20]			// max 20 graphs
+ngraph = 0
+
+proc addgraph() { local ii	// define subroutine to add a new graph
+				// addgraph("variable", minvalue, maxvalue)
+	ngraph = ngraph+1
+	ii = ngraph-1
+	g[ii] = new Graph()
+	g[ii].size(0,tstop,$2,$3)
+	g[ii].xaxis()
+	g[ii].yaxis()
+	g[ii].addvar($s1,1,0)
+	g[ii].save_name("graphList[0].")
+	graphList[0].append(g[ii])
+}
+
+proc makegraph() { local ii	// define subroutine to add a new graph
+				// makeraph("variable", xmin,xmax,ymin,ymax)
+	ngraph = ngraph+1
+	ii = ngraph-1
+	g[ii] = new Graph()
+	g[ii].size($2,$3,$4,$5)
+	g[ii].xaxis()
+	g[ii].yaxis()
+	g[ii].addvar($s1,1,0)
+	g[ii].save_name("graphList[0].")
+	graphList[0].append(g[ii])
+}
+
+nrnmainmenu()			// create main menu
+nrncontrolmenu()		// crate control menu
+
+
+
+//----------------------------------------------------------------------------
+//  general parameters
+//----------------------------------------------------------------------------
+
+dt=0.5
+npoints = 2000
+
+tstop = npoints * dt
+runStopAt = tstop
+steps_per_ms = 1/dt
+celsius = 36
+v_init = -70
+
+objectvar Exp , Pow, Theor		// create vectors of data points
+Exp = new Vector(npoints)
+Theor = new Vector(npoints)
+Pow = new Vector(npoints/2)
+
+
+
+
+//----------------------------------------------------------------------------
+//  create a compartment and insert passive properties
+//----------------------------------------------------------------------------
+
+create soma
+
+soma {
+	L = 105			// size to get similar Rin as Layer VI cell
+	diam = 105
+}
+
+leak_cond = 4.52e-5
+leak_rev = -80			// D & P 1999
+capacit = 1
+axial_res = 250
+
+forall { 			// insert passive currents
+	insert pas
+	g_pas = leak_cond
+	e_pas = leak_rev
+	cm = capacit
+	Ra = axial_res
+	L = L
+}
+
+
+
+
+//----------------------------------------------------------------------------
+//  insert active properties
+//----------------------------------------------------------------------------
+
+DEBUG=0
+
+soma {				// insert voltage-dependent currents INa, IKd, IM
+	   insert inaT
+	   ena = 50
+	   vtraub_inaT = -63			// threshold of -55
+	   gnabar_inaT = 20e-4			// density for soma
+
+	   insert ikdT
+	   ek = -90
+	   vtraub_ikdT = -63			// threshold of IKd
+	   gkbar_ikdT = 200e-4			// density for soma
+
+	   insert imZ
+	   ek = -90
+	   gkbar_imZ = 3e-4			// density for soma
+}   
+
+
+//
+// set the values of voltage-dependent conductances:
+// - Na channels like Magee-Johnston
+// - IM set to repetitive firing at the right frequency
+//
+
+corrJ = 4.3	// Johnston correction factor for Na conductance
+
+soma {
+	gnabar_inaT = corrJ*120e-4	// sodium channels
+	gkbar_ikdT = 100e-4		// delayed rectifier
+	gkbar_imZ = 5e-4		// M-channels
+}
+
+forall { 
+  shift_inaT = -10		// inactivation around -52 mV
+  vtraub_inaT = -63		// was -50 mV before
+  vtraub_ikdT = -63
+}
+
+
+
+
+
+
+//----------------------------------------------------------------------------
+//  insert Gfluct process
+//----------------------------------------------------------------------------
+
+access soma
+
+objref fl
+fl = new Gfluct2(0.5)
+
+fl.std_e = 0.012		// 4 times larger
+fl.std_i = 0.0264
+
+
+proc make_Fpanel() {			// make panel
+	xpanel("Fluctuating Conductance model")
+	xpvalue("E_e",&fl.E_e)
+	xpvalue("E_i",&fl.E_i)
+	xpvalue("g_e0",&fl.g_e0)
+	xpvalue("g_i0",&fl.g_i0)
+	xpvalue("std_e",&fl.std_e)
+	xpvalue("std_i",&fl.std_i)
+	xpvalue("tau_e",&fl.tau_e)
+	xpvalue("tau_i",&fl.tau_i)
+	xbutton("Run","run()")
+	xpanel()
+}
+
+make_Fpanel()
+
+
+
+
+
+//----------------------------------------------------------------------------
+//  create graphs
+//----------------------------------------------------------------------------
+
+
+addgraph("soma.v(0.5)",-80,40)
+
+ymin = 0	// min-max values
+ymax = 0.15
+
+addgraph("fl.g_e",ymin,ymax)
+
+addgraph("fl.g_i",ymin,ymax)
+
+
+
