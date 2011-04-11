@@ -53,7 +53,7 @@ ASSIGNED {
 }
 
 BREAKPOINT {
-	SOLVE states METHOD euler
+	SOLVE states METHOD cnexp
 	g = gkbar * m
 	ik = g * (v - ek)
 }
