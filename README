@@ -84,3 +84,5 @@ http://cns.iaf.cnrs-gif.fr
 "Integration methods for SOLVE statements" topic in the NEURON forum
 http://www.neuron.yale.edu/phpBB/viewtopic.php?f=28&t=592
 -ModelDB Administrator
+
+20221214 Fix 9.0.0 Upcoming error: new_seed used as both variable and function in file Gfluct.mod 
