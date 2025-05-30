@@ -1,14 +1,14 @@
-# NEURON DEMO FOR SIMULATING FLUCTUATING SYNAPTIC CONDUCTANCES
+## NEURON DEMO FOR SIMULATING FLUCTUATING SYNAPTIC CONDUCTANCES
 
-Alain Destexhe
-CNRS, UNIC (Bat-33), Avenue de la Terrasse,
+Alain Destexhe  
+CNRS, UNIC (Bat-33), Avenue de la Terrasse,  
 91198 Gif-sur-Yvette, France
-
-Destexhe@iaf.cnrs-gif.fr
+ 
+Destexhe@iaf.cnrs-gif.fr  
 http://cns.iaf.cnrs-gif.fr
 
 This package is running with the NEURON simulation program written by Michael
-Hines and available on internet at:
+Hines and available on internet at:  
 [http://www.neuron.yale.edu](http://www.neuron.yale.edu)
 
 The package contains mechanisms (.mod files) and programs (.oc files) needed
@@ -19,7 +19,7 @@ membrane potential, the low input resistance and high-amplitude membrane
 potential fluctuations. All details are given in the following paper:
 
 Destexhe A, Rudolph M, Fellous JM and Sejnowski TJ. Fluctuating synaptic
-conductances recreate in-vivo-like activity in neocortical neurons.
+conductances recreate in-vivo-like activity in neocortical neurons.  
 *Neuroscience* 107: 13-24, 2001.
 
 (see electronic copy at [http://cns.iaf.cnrs-gif.fr](http://cns.iaf.cnrs-gif.fr))
@@ -58,29 +58,27 @@ to start the simulation...
 
 For more information about how to get NEURON and how to install it, please
 refer to the following sites:
-- [http://www.neuron.yale.edu](http://www.neuron.yale.edu)
+- [http://www.neuron.yale.edu](http://www.neuron.yale.edu)  
 - [http://www.neuro.duke.edu](http://www.neuro.duke.edu)
 
 For further information, please contact:
 
-Alain Destexhe
-CNRS, UNIC (Bat-33),
-Avenue de la Terrasse,
-91198 Gif-sur-Yvette,
+Alain Destexhe  
+CNRS, UNIC (Bat-33),  
+Avenue de la Terrasse,  
+91198 Gif-sur-Yvette,  
 France
 
-email: Destexhe@iaf.cnrs-gif.fr
+email: Destexhe@iaf.cnrs-gif.fr  
 http://cns.iaf.cnrs-gif.fr
 
 ---
-
-20110411 changed solve method to cnexp in IM.mod as per
-"Integration methods for SOLVE statements" topic in the NEURON forum
+## Changelog
+20110411 changed solve method to cnexp in IM.mod as per  
+"Integration methods for SOLVE statements" topic in the NEURON forum  
 [http://www.neuron.yale.edu/phpBB/viewtopic.php?f=28&t=592](http://www.neuron.yale.edu/phpBB/viewtopic.php?f=28&t=592)
 -ModelDB Administrator
 
 20221214 Fix 9.0.0 Upcoming error: new_seed used as both variable and function in file Gfluct.mod
 
----
-
-2025-05-27 – Standardized to Markdown
+20250527 Standardized to Markdown
